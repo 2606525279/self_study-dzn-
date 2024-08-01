@@ -3,6 +3,7 @@
  */
 
 #include "../include/Dictionary.h"
+#include "../include/CacheManager.h"
 
 /**
  * Dictionary implementation

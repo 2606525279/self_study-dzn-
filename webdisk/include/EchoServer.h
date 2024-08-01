@@ -10,6 +10,7 @@
 #include <map>
 #include <vector>
 #include <fstream>
+#include "CacheManager.h"
 #include <sstream>
 
 using ConfigurationPtr = shared_ptr<Configuration>;
@@ -21,7 +22,7 @@ class MyTask
 {
 public:
     MyTask(int flag,const string &msg, const TcpConnectionPtr &con,const ConfigurationPtr &conf,const DictionaryPtr &dic,const WebPageQueryPtr &web);
-    void process();
+    void process(int idx);
 private:
     int _flag;
     string _msg;

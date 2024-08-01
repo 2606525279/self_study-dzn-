@@ -10,7 +10,9 @@ using std::thread;
 using std::vector;
 using std::function;
 
-using Task = function<void()>;
+using Task = function<void(int)>;
+
+thread_local int threadId;
 
 class ThreadPool
 {
@@ -28,7 +30,7 @@ private:
     Task getTask();
 
     //线程池交给工作线程thread执行的任务
-    void doTask();
+    void doTask(int idx);
 
 
 private:

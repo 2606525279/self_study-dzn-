@@ -42,6 +42,8 @@ class Dictionary
 public:
     using DictionaryPtr = shared_ptr<Dictionary>;
     Dictionary(){}
+
+
     vector<string> doQuery(const ConfigurationPtr &conf,const string &key);
     void dictInput(const ConfigurationPtr &conf);
     void chInput(const ConfigurationPtr &conf);

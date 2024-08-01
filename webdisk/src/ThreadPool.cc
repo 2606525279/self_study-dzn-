@@ -1,6 +1,8 @@
 #include "../include/ThreadPool.h"
 #include <iostream>
-
+#include "TimerManager.h"
+#include "CacheManager.h"
+#include <memory>
 using std::cout;
 using std::endl;
 
@@ -24,8 +26,13 @@ void ThreadPool::start()
     //创建线程，并且存放在容器中
     for(size_t idx = 0; idx != _threadNum; ++idx)
     {
-        _threads.push_back(thread(&ThreadPool::doTask, this));
+        shared_ptr<CacheManager> cacheManager = CacheManager::getInstance();
+        cacheManager->createNewCache("/home/dzn/Linux/linux57/webdisk/data/cache.dat",idx);
+        _threads.push_back(thread(&ThreadPool::doTask, this,idx));
     }
+    TimerManager tm;
+    _threads.push_back(thread(&TimerManager::start,&tm));//时间管理线程
+
 }
 
 void ThreadPool::stop()
@@ -61,8 +68,12 @@ Task ThreadPool::getTask()
 }
 
 //线程池交给工作线程thread执行的任务
-void ThreadPool::doTask()
+void ThreadPool::doTask(int idx)
 {
+    threadId = idx;
+    // shared_ptr<CacheManager> cacheManager = CacheManager::getInstance();
+    // LRUCache myCache = cacheManager->getCache(threadId);
+
     while(!_isExit)
     {
         //线程池中的线程需要先获取任务，然后执行任务
@@ -70,7 +81,7 @@ void ThreadPool::doTask()
         if(taskcb)
         {
             /* ptask->process();//会体现出多态 */
-            taskcb();//回调
+            taskcb(threadId);//回调
         }
         else
         {

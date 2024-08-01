@@ -13,7 +13,7 @@ using std::condition_variable;
 using std::function;
 
 
-using ElemType = function<void()>;
+using ElemType = function<void(int)>;
 
 class TaskQueue
 {
